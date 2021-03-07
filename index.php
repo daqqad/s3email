@@ -28,19 +28,19 @@ $materialsProvider = new KmsMaterialsProviderV2(
 
 $buckets = $S3Client->ListBuckets();
 foreach ($buckets['Buckets'] as $bucket) {
-	if (strpos($bucket['Name'], 'catchall') !== false) {
-		$bucket_files = $S3Client->getIterator('ListObjects', ['Bucket' => $bucket['Name']]);
-		foreach ($bucket_files as $bucket_file) {
-		  $email = $encryptionClient->getObject([
-			  '@KmsAllowDecryptWithAnyCmk' => true,
-			  '@SecurityProfile' => 'V2_AND_LEGACY',
-			  '@MaterialsProvider' => $materialsProvider,
-			  '@CipherOptions' => $cipherOptions,
-			  'Bucket' => $bucket['Name'],
-				'Key' => $bucket_file['Key'],
-			]);
-			die(var_dump(utf8_decode($email['Body'])));
-		}
-	}
+  if (strpos($bucket['Name'], 'catchall') !== false) {
+    $bucket_files = $S3Client->getIterator('ListObjects', ['Bucket' => $bucket['Name']]);
+    foreach ($bucket_files as $bucket_file) {
+      $email = $encryptionClient->getObject([
+        '@KmsAllowDecryptWithAnyCmk' => true,
+        '@SecurityProfile' => 'V2_AND_LEGACY',
+        '@MaterialsProvider' => $materialsProvider,
+        '@CipherOptions' => $cipherOptions,
+        'Bucket' => $bucket['Name'],
+        'Key' => $bucket_file['Key'],
+      ]);
+      die(var_dump(utf8_decode($email['Body'])));
+    }
+  }
 }
 ?>
