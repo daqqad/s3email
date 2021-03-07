@@ -41,12 +41,6 @@ foreach ($buckets['Buckets'] as $bucket) {
 			]);
 			die(var_dump(utf8_decode($email['Body'])));
 		}
-		//$meta = $s3Client->getObject([
-		//	'Bucket' => $bucket['Name'],
-		//	'Key' => 
 	}
 }
-
-#var_dump($result);
-
 ?>
