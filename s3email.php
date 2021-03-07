@@ -19,7 +19,7 @@ $S3Client = new S3Client([
 ]);
 
 $SesClient = new SesClient([
-	'region' => 'us-east-1',
+  'region' => 'us-east-1',
   'version' => 'latest',
 ]);
 
@@ -36,11 +36,11 @@ $buckets = $S3Client->ListBuckets();
 foreach ($buckets['Buckets'] as $bucket) {
   $bucket_result = $S3Client->ListObjectsV2(['Bucket' => $bucket['Name']]);
   if (strpos($bucket['Name'], 'catchall') !== false && $bucket_result['KeyCount'] > 0) {
-		$mail = new \PHPMailer\PHPMailer\PHPMailer;
-		$mail->setFrom("noreply@example.com", "S3 Mailer");
-		$mail->addAddress("you@example.com");
-		$mail->Subject = "Received emails from " . $bucket['Name'];
-		$mail->Body = <<<EOS
+    $mail = new \PHPMailer\PHPMailer\PHPMailer;
+    $mail->setFrom("noreply@example.com", "S3 Mailer");
+    $mail->addAddress("you@example.com");
+    $mail->Subject = "Received emails from " . $bucket['Name'];
+    $mail->Body = <<<EOS
 Received emails are attached.
 EOS;
 
@@ -55,21 +55,21 @@ EOS;
         'Key' => $bucket_file['Key'],
       ]);
       $attach = utf8_decode($email['Body']);
-			preg_match('/Subject\: (.*)/', utf8_decode($email->get('Body')), $subject);
-			$mail->addStringAttachment($attach, preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $subject[1] . '.eml'), 'base64', 'text/html');
-			$S3Client->deleteObject([
-				'Bucket' => $bucket['Name'],
-				'Key'	=> $bucket_file['Key'],
-			]);
+      preg_match('/Subject\: (.*)/', utf8_decode($email->get('Body')), $subject);
+      $mail->addStringAttachment($attach, preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $subject[1] . '.eml'), 'base64', 'text/html');
+      $S3Client->deleteObject([
+        'Bucket' => $bucket['Name'],
+        'Key' => $bucket_file['Key'],
+      ]);
     }
 
-		$mail->preSend();
-		$rawMessage = $mail->getSentMIMEMessage();
-		$SesClient->sendRawEmail([
-			'RawMessage' => [
-				'Data' => $rawMessage,
-			],
-		]);
+    $mail->preSend();
+    $rawMessage = $mail->getSentMIMEMessage();
+    $SesClient->sendRawEmail([
+      'RawMessage' => [
+        'Data' => $rawMessage,
+      ],
+    ]);
   }
 }
 ?>
