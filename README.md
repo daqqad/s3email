@@ -20,8 +20,8 @@ kms:Decrypt
 Modify the following variables to your own:
 
 $kmsKeyId // This is ID of KMS key SES uses to encrypt messages stored in S3<br>
-$mail->setFrom("noreply@daqfx.com", "S3 Mailer") // From address and subject for summary emails<br>
-$mail->addAddress("alex@daqfx.com") // Address where you want to receive summary emails<br>
+$mail->setFrom("noreply@example.com", "S3 Mailer") // From address and subject for summary emails<br>
+$mail->addAddress("you@example.com") // Address where you want to receive summary emails<br>
 
 
 You will also need to set region for various AWS clients to match your own
