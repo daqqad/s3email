@@ -55,8 +55,8 @@ EOS;
         'Key' => $bucket_file['Key'],
       ]);
       $attach = utf8_decode($email['Body']);
-			preg_match('/Subject\: (.*)/', utf8_decode($email->get('Body')), $out);
-			$mail->addStringAttachment($attach, $out[1] . '.eml', 'base64', 'text/html');
+			preg_match('/Subject\: (.*)/', utf8_decode($email->get('Body')), $subject);
+			$mail->addStringAttachment($attach, preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $subject[1] . '.eml'), 'base64', 'text/html');
 			$S3Client->deleteObject([
 				'Bucket' => $bucket['Name'],
 				'Key'	=> $bucket_file['Key'],
