@@ -2,7 +2,7 @@
 Script to forward encrypted messages stored in S3 buckets by SES as attachments via SES.
 
 ### Purpose:
-I build this because I have a bunch of domains where I don't actively use email, but also don't want to bounce everything.
+I wrote this because I have a bunch of domains where I don't actively use email, but also don't want to bounce everything.
 This script allows me to schedule a cron job that runs once a day and sends me all emails that arrived on catchall accounts for these domains as attachments for simple review.
 
 ### Requirements:
